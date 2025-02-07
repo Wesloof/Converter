@@ -238,7 +238,7 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
     std::ofstream outFile(filename2);
     for (const auto& l : lines) {
         outFile << l << std::endl;
-    }
+    } 
     outFile.close();
 
     if (radioButton1->Checked == true)
