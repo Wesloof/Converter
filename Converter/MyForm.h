@@ -92,6 +92,12 @@ namespace Converterr {
 	private: System::Windows::Forms::Label^ label16;
 	private: System::Windows::Forms::Label^ label21;
 	private: System::Windows::Forms::GroupBox^ groupBox3;
+	private: System::Windows::Forms::Label^ label24;
+	private: System::Windows::Forms::TextBox^ uref;
+	private: System::Windows::Forms::Label^ isensas;
+	private: System::Windows::Forms::TextBox^ isens;
+	private: System::Windows::Forms::Label^ sadsda;
+	private: System::Windows::Forms::TextBox^ rbot;
 
 
 
@@ -102,7 +108,7 @@ namespace Converterr {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -161,6 +167,12 @@ namespace Converterr {
 			this->etmin = (gcnew System::Windows::Forms::TextBox());
 			this->label21 = (gcnew System::Windows::Forms::Label());
 			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
+			this->sadsda = (gcnew System::Windows::Forms::Label());
+			this->rbot = (gcnew System::Windows::Forms::TextBox());
+			this->isensas = (gcnew System::Windows::Forms::Label());
+			this->isens = (gcnew System::Windows::Forms::TextBox());
+			this->label24 = (gcnew System::Windows::Forms::Label());
+			this->uref = (gcnew System::Windows::Forms::TextBox());
 			this->groupBox1->SuspendLayout();
 			this->groupBox2->SuspendLayout();
 			this->groupBox3->SuspendLayout();
@@ -510,6 +522,12 @@ namespace Converterr {
 			// groupBox2
 			// 
 			this->groupBox2->BackColor = System::Drawing::Color::WhiteSmoke;
+			this->groupBox2->Controls->Add(this->label24);
+			this->groupBox2->Controls->Add(this->uref);
+			this->groupBox2->Controls->Add(this->isensas);
+			this->groupBox2->Controls->Add(this->isens);
+			this->groupBox2->Controls->Add(this->sadsda);
+			this->groupBox2->Controls->Add(this->rbot);
 			this->groupBox2->Controls->Add(this->label18);
 			this->groupBox2->Controls->Add(this->label17);
 			this->groupBox2->Controls->Add(this->label16);
@@ -526,7 +544,7 @@ namespace Converterr {
 			this->groupBox2->Controls->Add(this->adp60);
 			this->groupBox2->Location = System::Drawing::Point(8, 37);
 			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Size = System::Drawing::Size(486, 286);
+			this->groupBox2->Size = System::Drawing::Size(486, 382);
 			this->groupBox2->TabIndex = 1;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Коэфициенты";
@@ -744,18 +762,81 @@ namespace Converterr {
 			this->groupBox3->Controls->Add(this->etmin);
 			this->groupBox3->Controls->Add(this->label19);
 			this->groupBox3->Controls->Add(this->etmax);
-			this->groupBox3->Location = System::Drawing::Point(8, 329);
+			this->groupBox3->Location = System::Drawing::Point(4, 421);
 			this->groupBox3->Name = L"groupBox3";
 			this->groupBox3->Size = System::Drawing::Size(486, 195);
 			this->groupBox3->TabIndex = 2;
 			this->groupBox3->TabStop = false;
 			this->groupBox3->Text = L"Выбор действия";
 			// 
+			// sadsda
+			// 
+			this->sadsda->AutoSize = true;
+			this->sadsda->Font = (gcnew System::Drawing::Font(L"Cascadia Mono", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->sadsda->ForeColor = System::Drawing::Color::Navy;
+			this->sadsda->Location = System::Drawing::Point(277, 230);
+			this->sadsda->Name = L"sadsda";
+			this->sadsda->Size = System::Drawing::Size(65, 30);
+			this->sadsda->TabIndex = 18;
+			this->sadsda->Text = L"Rbot";
+			// 
+			// rbot
+			// 
+			this->rbot->Font = (gcnew System::Drawing::Font(L"Cascadia Mono", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->rbot->Location = System::Drawing::Point(345, 230);
+			this->rbot->Name = L"rbot";
+			this->rbot->Size = System::Drawing::Size(133, 34);
+			this->rbot->TabIndex = 17;
+			// 
+			// isensas
+			// 
+			this->isensas->AutoSize = true;
+			this->isensas->Font = (gcnew System::Drawing::Font(L"Cascadia Mono", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->isensas->ForeColor = System::Drawing::Color::Navy;
+			this->isensas->Location = System::Drawing::Point(41, 300);
+			this->isensas->Name = L"isensas";
+			this->isensas->Size = System::Drawing::Size(91, 30);
+			this->isensas->TabIndex = 20;
+			this->isensas->Text = L"I sens";
+			// 
+			// isens
+			// 
+			this->isens->Font = (gcnew System::Drawing::Font(L"Cascadia Mono", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->isens->Location = System::Drawing::Point(138, 297);
+			this->isens->Name = L"isens";
+			this->isens->Size = System::Drawing::Size(133, 34);
+			this->isens->TabIndex = 19;
+			// 
+			// label24
+			// 
+			this->label24->AutoSize = true;
+			this->label24->Font = (gcnew System::Drawing::Font(L"Cascadia Mono", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->label24->ForeColor = System::Drawing::Color::Navy;
+			this->label24->Location = System::Drawing::Point(277, 297);
+			this->label24->Name = L"label24";
+			this->label24->Size = System::Drawing::Size(65, 30);
+			this->label24->TabIndex = 22;
+			this->label24->Text = L"Uref";
+			// 
+			// uref
+			// 
+			this->uref->Font = (gcnew System::Drawing::Font(L"Cascadia Mono", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->uref->Location = System::Drawing::Point(345, 297);
+			this->uref->Name = L"uref";
+			this->uref->Size = System::Drawing::Size(133, 34);
+			this->uref->TabIndex = 21;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(502, 530);
+			this->ClientSize = System::Drawing::Size(502, 628);
 			this->Controls->Add(this->label21);
 			this->Controls->Add(this->groupBox3);
 			this->Controls->Add(this->groupBox2);
@@ -774,15 +855,15 @@ namespace Converterr {
 		}
 #pragma endregion
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e);
-private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e);
-private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e);
-private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
-	button1->Enabled = true;
-}
-private: System::Void radioButton2_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
-	button1->Enabled = true;
-}
-private: System::Void textBox13_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-}
-};
+	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+		button1->Enabled = true;
+	}
+	private: System::Void radioButton2_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+		button1->Enabled = true;
+	}
+	private: System::Void textBox13_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	}
+	};
 }

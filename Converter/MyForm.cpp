@@ -1,4 +1,4 @@
-#include "MyForm.h"
+п»ї#include "MyForm.h"
 #include <Windows.h>
 #include <iostream>
 #include <fstream>
@@ -29,7 +29,7 @@ int changeflag(std::string flags) {
     std::ifstream file(filenamez); // Open file for reading
 
     if (!file.is_open()) {
-        MessageBox::Show("Не удалось открыть файл: " + gcnew String(filenamez.c_str()), "Ошибка");
+        MessageBox::Show("пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ: " + gcnew String(filenamez.c_str()), "пїЅпїЅпїЅпїЅпїЅпїЅ");
         return 1;
     }
 
@@ -47,7 +47,7 @@ int changeflag(std::string flags) {
 
     std::ofstream outFile(filenamez);
     if (!outFile.is_open()) {
-        MessageBox::Show("Не удалось открыть файл для записи: " + gcnew String(filenamez.c_str()), "Ошибка");
+        MessageBox::Show("пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: " + gcnew String(filenamez.c_str()), "пїЅпїЅпїЅпїЅпїЅпїЅ");
         return 1;
     }
 
@@ -60,114 +60,114 @@ int changeflag(std::string flags) {
 }
 
 std::vector<double> extractNumbersAfterString(const std::string& query) {
-    std::vector<double> numbers; // Вектор для хранения чисел
-    std::ifstream file(filenamez); // Открываем файл для чтения
+    std::vector<double> numbers; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    std::ifstream file(filenamez); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     std::string line;
     bool found = false;
 
     if (!file.is_open()) {
-        std::cerr << "Ошибка: не удалось открыть файл!" << std::endl;
-        return numbers; // Возвращаем пустой вектор, если файл не открылся
+        std::cerr << "пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ!" << std::endl;
+        return numbers; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 
-    while (std::getline(file, line)) { // Читаем файл построчно
+    while (std::getline(file, line)) { // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (line.find(query) != std::string::npos) {
-            found = true; // Нашли строку с запросом
-            continue; // Переходим к следующей строке
+            found = true; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            continue; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         }
 
         if (found) {
-            if (line.empty()) { // Если встретили пустую строку, прекращаем поиск
+            if (line.empty()) { // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
                 break;
             }
 
-            // Удаляем префикс "RowX=" и извлекаем число
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ "RowX=" пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             size_t equalsSign = line.find('=');
             if (equalsSign != std::string::npos) {
                 std::string numberStr = line.substr(equalsSign + 1);
                 std::istringstream iss(numberStr);
                 double number;
                 if (iss >> number) {
-                    numbers.push_back(number); // Добавляем число в вектор
+                    numbers.push_back(number); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 }
             }
         }
     }
 
-    file.close(); // Закрываем файл
-    return numbers; // Возвращаем вектор чисел
+    file.close(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+    return numbers; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 }
 
 
 void replaceNumbersBelowString(const std::string& query, const std::vector<double>& newNumbers) {
-    std::ifstream inFile(filenamez); // Открываем файл для чтения
-    std::vector<std::string> lines; // Вектор для хранения строк файла
+    std::ifstream inFile(filenamez); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    std::vector<std::string> lines; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     std::string line;
     bool found = false;
-    size_t replaceStartIndex = 0; // Индекс строки, с которой начинается замена
+    size_t replaceStartIndex = 0; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
     if (!inFile.is_open()) {
-        std::cerr << "Ошибка: не удалось открыть файл для чтения!" << std::endl;
+        std::cerr << "пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!" << std::endl;
         return;
     }
 
-    // Читаем файл построчно и сохраняем строки в вектор
+    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     while (std::getline(inFile, line)) {
         lines.push_back(line);
     }
-    inFile.close(); // Закрываем файл
+    inFile.close(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 
-    // Ищем строку с запросом
+    // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     for (size_t i = 0; i < lines.size(); ++i) {
         if (lines[i].find(query) != std::string::npos) {
             found = true;
-            replaceStartIndex = i + 1; // Замена начинается со следующей строки
+            replaceStartIndex = i + 1; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             break;
         }
     }
 
     if (!found) {
-        std::cerr << "Строка не найдена!" << std::endl;
+        std::cerr << "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ!" << std::endl;
         return;
     }
 
-    // Перезаписываем строки с числами до пустой строки
-    size_t rowNumber = 1; // Нумерация для префиксов Row1=, Row2= и т.д.
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    size_t rowNumber = 1; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Row1=, Row2= пїЅ пїЅ.пїЅ.
     for (size_t i = replaceStartIndex; i < lines.size(); ++i) {
-        if (lines[i].empty()) { // Останавливаемся на пустой строке
+        if (lines[i].empty()) { // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             break;
         }
 
-        // Формируем новую строку с префиксом и числом
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         std::ostringstream oss;
         oss << "Row" << rowNumber << "=" << newNumbers[rowNumber - 1];
-        lines[i] = oss.str(); // Перезаписываем строку
+        lines[i] = oss.str(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         rowNumber++;
 
-        if (rowNumber > newNumbers.size()) { // Если числа закончились, прекращаем замену
+        if (rowNumber > newNumbers.size()) { // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             break;
         }
     }
 
-    // Открываем файл для записи (перезаписываем)
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
     std::ofstream outFile(filenamez);
     if (!outFile.is_open()) {
-        std::cerr << "Ошибка: не удалось открыть файл для записи!" << std::endl;
+        std::cerr << "пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!" << std::endl;
         return;
     }
 
-    // Записываем обновленные строки в файл
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
     for (const auto& l : lines) {
         outFile << l << std::endl;
     }
-    outFile.close(); // Закрываем файл
+    outFile.close(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 }
 
 int change(std::string linec, std::string linen, double koef) {
     std::ifstream file(filenamez);
 
     if (!file.is_open()) {
-        MessageBox::Show("Ошибка: Не удалось открыть файл", "Ошибка");
+        MessageBox::Show("пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅпїЅ");
         return 1;
     }
 
@@ -191,12 +191,12 @@ int change(std::string linec, std::string linen, double koef) {
     file.close();
 
     if (!editFound || editIndex + 8 >= lines.size()) {
-        MessageBox::Show("Строка 'edit' не найдена или после нее недостаточно строк.", "Ошибка");
+        MessageBox::Show("пїЅпїЅпїЅпїЅпїЅпїЅ 'edit' пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.", "пїЅпїЅпїЅпїЅпїЅпїЅ");
         return 1;
     }
 
     if (!changeFound) {
-        MessageBox::Show("Строка 'change' не найдена.", "Ошибка");
+        MessageBox::Show("пїЅпїЅпїЅпїЅпїЅпїЅ 'change' пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.", "пїЅпїЅпїЅпїЅпїЅпїЅ");
         return 1;
     }
 
@@ -246,7 +246,7 @@ int change(std::string linec, std::string linen, double koef) {
 
     std::ofstream outFile(filenamez);
     if (!outFile.is_open()) {
-        MessageBox::Show("Ошибка при записи в файл.", "Ошибка");
+        MessageBox::Show("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ.", "пїЅпїЅпїЅпїЅпїЅпїЅ");
         return 1;
     }
 
@@ -256,6 +256,10 @@ int change(std::string linec, std::string linen, double koef) {
 
     outFile.close();
     return 0;
+}
+String^ Replaced(String^ inp)
+{
+    return inp->Replace(".", ",");
 }
 
 std::string ConvertAndReplace(System::String^ managedString) {
@@ -279,7 +283,7 @@ inline System::Void Converterr::MyForm::button2_Click(System::Object^ sender, Sy
 
         // Check if file exists before proceeding
         if (!std::ifstream(filePath)) {
-            MessageBox::Show("Файл не существует или не может быть открыт.", "Ошибка");
+            MessageBox::Show("пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.", "пїЅпїЅпїЅпїЅпїЅпїЅ");
             return;
         }
 
@@ -302,7 +306,7 @@ inline System::Void Converterr::MyForm::button2_Click(System::Object^ sender, Sy
                 numbers.push_back(num);
             }
             catch (const std::invalid_argument&) {
-                MessageBox::Show("Ошибка: некорректное число в первой строке.", "Ошибка");
+                MessageBox::Show("пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.", "пїЅпїЅпїЅпїЅпїЅпїЅ");
             }
         }
 
@@ -316,6 +320,9 @@ inline System::Void Converterr::MyForm::button2_Click(System::Object^ sender, Sy
         t0->Text = Convert::ToString(numbers[6]);
         etmin->Text = Convert::ToString(numbers[7]);
         etmax->Text = Convert::ToString(numbers[8]);
+        uref->Text = Convert::ToString(numbers[9]);
+        isens->Text = Convert::ToString(numbers[10]);
+        rbot->Text = Convert::ToString(numbers[11]);
     }
 }
 
@@ -329,19 +336,22 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
     updatedLine << ConvertAndReplace(tmax->Text) << "i";
     updatedLine << ConvertAndReplace(t0->Text) << "i";
     updatedLine << ConvertAndReplace(etmin->Text) << "i";
-    updatedLine << ConvertAndReplace(etmax->Text);
+    updatedLine << ConvertAndReplace(etmax->Text) << "i";
+    updatedLine << ConvertAndReplace(uref->Text) << "i";
+    updatedLine << ConvertAndReplace(isens->Text) << "i";
+    updatedLine << ConvertAndReplace(rbot->Text);
 
     lines[0] = updatedLine.str();
 
     std::ofstream outFile(filename2);
     for (const auto& l : lines) {
         outFile << l << std::endl;
-    } 
+    }
     outFile.close();
 
     if (radioButton1->Checked == true)
     {
-       //change("[Col63]", "[Col67]", Convert::ToDouble(textBox4->Text));
+        //change("[Col63]", "[Col67]", Convert::ToDouble(textBox4->Text));
         changeflag("P1L_EN=");
         //change("[Col64]", "[Col68]", Convert::ToDouble(textBox1->Text));
         changeflag("P2L_EN=");
@@ -392,16 +402,16 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
         std::vector<double> adp5;
         for (int i = 0; i < adp0.size(); i++)
         {
-            adp6.push_back(adp0[i] + Convert::ToDouble(adp60->Text) * (adp1[i] - adp0[i]) * (
-                Convert::ToDouble(tmax->Text) - Convert::ToDouble(t0->Text)) / 
-                Convert::ToDouble(etmax->Text));
-            adp7.push_back(adp6[i] + (Convert::ToDouble(apd71->Text) + 1) * (adp1[i] - adp0[i])
-            * (Convert::ToDouble(tmax->Text) - Convert::ToDouble(t0->Text)) / Convert::ToDouble(etmax->Text));
-            adp4.push_back(adp0[i] + Convert::ToDouble(adp40->Text) * (adp1[i] - adp0[i]) * (
-                Convert::ToDouble(tmin->Text) - Convert::ToDouble(t0->Text)) /
-                Convert::ToDouble(etmin->Text));
-            adp5.push_back(adp4[i] + (Convert::ToDouble(adp51->Text) + 1) * (adp1[i] - adp0[i])
-                * (Convert::ToDouble(tmin->Text) - Convert::ToDouble(t0->Text)) / Convert::ToDouble(etmin->Text));
+            adp6.push_back(adp0[i] + Convert::ToDouble(Replaced(adp60->Text)) * (adp1[i] - adp0[i]) * (
+                Convert::ToDouble(Replaced(tmax->Text)) - Convert::ToDouble(Replaced(t0->Text))) /
+                Convert::ToDouble(Replaced(etmax->Text)));
+            adp7.push_back(adp6[i] + (Convert::ToDouble(Replaced(apd71->Text)) + 1) * (adp1[i] - adp0[i])
+                * (Convert::ToDouble(Replaced(tmax->Text)) - Convert::ToDouble(Replaced(t0->Text))) / Convert::ToDouble(Replaced(etmax->Text)));
+            adp4.push_back(adp0[i] + Convert::ToDouble(Replaced(adp40->Text)) * (adp1[i] - adp0[i]) * (
+                Convert::ToDouble(Replaced(tmin->Text)) - Convert::ToDouble(Replaced(t0->Text))) /
+                Convert::ToDouble(Replaced(etmin->Text)));
+            adp5.push_back(adp4[i] + (Convert::ToDouble(Replaced(adp51->Text)) + 1) * (adp1[i] - adp0[i])
+                * (Convert::ToDouble(Replaced(tmin->Text)) - Convert::ToDouble(Replaced(t0->Text))) / Convert::ToDouble(Replaced(etmin->Text)));
         }
 
         std::vector<double> adt0 = extractNumbersAfterString("[Col79]");
@@ -409,10 +419,12 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
         std::vector<double> adt67;
         for (int i = 0; i < adp0.size(); i++)
         {
-            adt45.push_back(adt0[i] + 0.002144 *(Convert::ToDouble(tmin->Text) - Convert::ToDouble(t0->Text))
-            * (adt0[i] - (620 * 0.00065 / 4) * 100));
-            adt67.push_back(adt0[i] + 0.002916 * (Convert::ToDouble(tmax->Text) - Convert::ToDouble(t0->Text))
-                * (adt0[i] - (620 * 0.00065 / 4) * 100));
+            adt45.push_back(adt0[i] + 0.002144 * (Convert::ToDouble(Replaced(tmin->Text)) - Convert::ToDouble(Replaced(t0->Text)))
+                * (adt0[i] - (Convert::ToDouble(Replaced(rbot->Text)) * Convert::ToDouble(Replaced(isens->Text))
+                    / Convert::ToDouble(Replaced(uref->Text))) * 100));
+            adt67.push_back(adt0[i] + 0.002916 * (Convert::ToDouble(Replaced(tmax->Text)) - Convert::ToDouble(Replaced(t0->Text)))
+                * (adt0[i] - (Convert::ToDouble(Replaced(rbot->Text)) * Convert::ToDouble(Replaced(isens->Text))
+                    / Convert::ToDouble(Replaced(uref->Text))) * 100));
         }
 
         replaceNumbersBelowString("[Col68]", adp6);
@@ -434,7 +446,7 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
 
         change("[Col96]", "[Col102]", 0);
 
-        MessageBox::Show("Успех", "Успех");
+        MessageBox::Show("РЈСЃРїРµС€РЅР°СЏ РєРѕРЅРІРµСЂС‚Р°С†РёСЏ", "РћРєРЅРѕ");
     }
     if (radioButton2->Checked == true)
     {
@@ -470,7 +482,7 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
         change("[Col55]", "[Col59]", 0);
 
         change("[Col55]", "[Col61]", 0);
-        
+
         change("[Col102]", "[Col108]", 0);
 
         change("[Col102]", "[Col106]", 0);
@@ -487,16 +499,16 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
         std::vector<double> adp5;
         for (int i = 0; i < adp0.size(); i++)
         {
-            adp6.push_back(adp0[i] + Convert::ToDouble(adp60->Text) * (adp1[i] - adp0[i]) * (
-                Convert::ToDouble(tmax->Text) - Convert::ToDouble(t0->Text)) /
-                Convert::ToDouble(etmax->Text));
-            adp7.push_back(adp6[i] + (Convert::ToDouble(apd71->Text) + 1) * (adp1[i] - adp0[i])
-                * (Convert::ToDouble(tmax->Text) - Convert::ToDouble(t0->Text)) / Convert::ToDouble(etmax->Text));
-            adp4.push_back(adp0[i] + Convert::ToDouble(adp40->Text) * (adp1[i] - adp0[i]) * (
-                Convert::ToDouble(tmin->Text) - Convert::ToDouble(t0->Text)) /
-                Convert::ToDouble(etmin->Text));
-            adp5.push_back(adp4[i] + (Convert::ToDouble(adp51->Text) + 1) * (adp1[i] - adp0[i])
-                * (Convert::ToDouble(tmin->Text) - Convert::ToDouble(t0->Text)) / Convert::ToDouble(etmin->Text));
+            adp6.push_back(adp0[i] + Convert::ToDouble(Replaced(adp60->Text)) * (adp1[i] - adp0[i]) * (
+                Convert::ToDouble(Replaced(tmax->Text)) - Convert::ToDouble(Replaced(t0->Text))) /
+                Convert::ToDouble(Replaced(etmax->Text)));
+            adp7.push_back(adp6[i] + (Convert::ToDouble(Replaced(apd71->Text)) + 1) * (adp1[i] - adp0[i])
+                * (Convert::ToDouble(Replaced(tmax->Text)) - Convert::ToDouble(Replaced(t0->Text))) / Convert::ToDouble(Replaced(etmax->Text)));
+            adp4.push_back(adp0[i] + Convert::ToDouble(Replaced(adp40->Text)) * (adp1[i] - adp0[i]) * (
+                Convert::ToDouble(Replaced(tmin->Text)) - Convert::ToDouble(Replaced(t0->Text))) /
+                Convert::ToDouble(Replaced(etmin->Text)));
+            adp5.push_back(adp4[i] + (Convert::ToDouble(Replaced(adp51->Text)) + 1) * (adp1[i] - adp0[i])
+                * (Convert::ToDouble(Replaced(tmin->Text)) - Convert::ToDouble(Replaced(t0->Text))) / Convert::ToDouble(Replaced(etmin->Text)));
         }
 
         std::vector<double> adt0 = extractNumbersAfterString("[Col78]");
@@ -504,10 +516,12 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
         std::vector<double> adt67;
         for (int i = 0; i < adp0.size(); i++)
         {
-            adt45.push_back(adt0[i] + 0.002144 * (Convert::ToDouble(tmin->Text) - Convert::ToDouble(t0->Text))
-                * (adt0[i] - (620 * 0.00065 / 4) * 100));
-            adt67.push_back(adt0[i] + 0.002916 * (Convert::ToDouble(tmax->Text) - Convert::ToDouble(t0->Text))
-                * (adt0[i] - (620 * 0.00065 / 4) * 100));
+            adt45.push_back(adt0[i] + 0.002144 * (Convert::ToDouble(Replaced(tmin->Text)) - Convert::ToDouble(Replaced(t0->Text)))
+                * (adt0[i] - (Convert::ToDouble(Replaced(rbot->Text)) * Convert::ToDouble(Replaced(isens->Text))
+                    / Convert::ToDouble(Replaced(uref->Text))) * 100));
+            adt67.push_back(adt0[i] + 0.002916 * (Convert::ToDouble(Replaced(tmax->Text)) - Convert::ToDouble(Replaced(t0->Text)))
+                * (adt0[i] - (Convert::ToDouble(Replaced(rbot->Text)) * Convert::ToDouble(Replaced(isens->Text))
+                    / Convert::ToDouble(Replaced(uref->Text))) * 100));
         }
 
         replaceNumbersBelowString("[Col68]", adp6);
@@ -528,11 +542,11 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
 
         change("[Col95]", "[Col101]", 0);
 
-        MessageBox::Show("Успех", "Успех");
+        MessageBox::Show("РЈСЃРїРµС€РЅР°СЏ РєРѕРЅРІРµСЂС‚Р°С†РёСЏ", "РћРєРЅРѕ");
     }
-    }
+}
 
-    
+
 
 inline System::Void Converterr::MyForm::button3_Click(System::Object^ sender, System::EventArgs^ e) {
 }
