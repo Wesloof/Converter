@@ -19,38 +19,35 @@ std::vector<double> numbers = {};
 std::vector<std::string> lines = {};
 
 [STAThread]
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+int main(array<String^>^ args)
+{
     Application::EnableVisualStyles();
     Application::SetCompatibleTextRenderingDefault(false);
-    Application::Run(gcnew MyForm);
+    Application::Run(gcnew Converterr::MyForm());
     return 0;
 }
+struct markers {
+    int markers_copy;
+    int markers_input;
+};
 
 int changeflag(std::string flags) {
-    std::ifstream file(filenamez); // Open file for reading
+    std::ifstream file(filenamez);
 
-    if (!file.is_open()) {
-        MessageBox::Show("�� ������� ������� ����: " + gcnew String(filenamez.c_str()), "������");
-        return 1;
-    }
 
     std::vector<std::string> lines;
     std::string line;
 
     while (std::getline(file, line)) {
         if (line == flags + "0") {
-            line = flags + "1"; // Update line
+            line = flags + "1";
         }
         lines.push_back(line);
     }
 
-    file.close(); // Close for reading
+    file.close(); 
 
     std::ofstream outFile(filenamez);
-    if (!outFile.is_open()) {
-        MessageBox::Show("�� ������� ������� ���� ��� ������: " + gcnew String(filenamez.c_str()), "������");
-        return 1;
-    }
 
     for (const auto& l : lines) {
         outFile << l << std::endl;
@@ -61,116 +58,141 @@ int changeflag(std::string flags) {
 }
 
 std::vector<double> extractNumbersAfterString(const std::string& query) {
-    std::vector<double> numbers; // ������ ��� �������� �����
-    std::ifstream file(filenamez); // ��������� ���� ��� ������
+    std::vector<double> numbers;
+    std::ifstream file(filenamez);
     std::string line;
     bool found = false;
 
-    if (!file.is_open()) {
-        std::cerr << "������: �� ������� ������� ����!" << std::endl;
-        return numbers; // ���������� ������ ������, ���� ���� �� ��������
+    if (query.empty()) {
+        return { 0.0 }; // Если query пустая — возвращаем {0}
     }
 
-    while (std::getline(file, line)) { // ������ ���� ���������
+    while (std::getline(file, line)) {
         if (line.find(query) != std::string::npos) {
-            found = true; // ����� ������ � ��������
-            continue; // ��������� � ��������� ������
+            found = true;
+            continue;
         }
 
         if (found) {
-            if (line.empty()) { // ���� ��������� ������ ������, ���������� �����
-                break;
+            if (line.empty()) {
+                break; // Пустая строка — конец блока
             }
 
-            // ������� ������� "RowX=" � ��������� �����
             size_t equalsSign = line.find('=');
             if (equalsSign != std::string::npos) {
                 std::string numberStr = line.substr(equalsSign + 1);
-                std::istringstream iss(numberStr);
-                double number;
-                if (iss >> number) {
-                    numbers.push_back(number); // ��������� ����� � ������
+
+                // Если строка "0" или "0.0" — добавляем 0
+                if (numberStr == "0" || numberStr == "0.0") {
+                    numbers.push_back(0.0);
+                }
+                // Если строка "null" или пустая — тоже 0
+                else if (numberStr == "null" || numberStr.empty()) {
+                    numbers.push_back(0.0);
+                }
+                // Пробуем распарсить число
+                else {
+                    std::istringstream iss(numberStr);
+                    double number;
+                    if (iss >> number) { // Если распарсилось (в т.ч. отрицательное)
+                        numbers.push_back(number);
+                    }
+                    else { // Если не число (например, текст)
+                        numbers.push_back(0.0);
+                    }
                 }
             }
         }
     }
 
-    file.close(); // ��������� ����
-    return numbers; // ���������� ������ �����
+    file.close();
+
+    // Если после query не было строк с числами — возвращаем {0}
+    if (numbers.empty()) {
+        return { 0.0 };
+    }
+
+    return numbers;
 }
 
 
 void replaceNumbersBelowString(const std::string& query, const std::vector<double>& newNumbers) {
-    std::ifstream inFile(filenamez); // ��������� ���� ��� ������
-    std::vector<std::string> lines; // ������ ��� �������� ����� �����
+    std::ifstream inFile(filenamez);
+    std::vector<std::string> lines;
     std::string line;
     bool found = false;
-    size_t replaceStartIndex = 0; // ������ ������, � ������� ���������� ������
+    size_t replaceStartIndex = 0;
 
-    if (!inFile.is_open()) {
-        std::cerr << "������: �� ������� ������� ���� ��� ������!" << std::endl;
-        return;
-    }
-
-    // ������ ���� ��������� � ��������� ������ � ������
     while (std::getline(inFile, line)) {
         lines.push_back(line);
     }
-    inFile.close(); // ��������� ����
+    inFile.close();
 
-    // ���� ������ � ��������
     for (size_t i = 0; i < lines.size(); ++i) {
         if (lines[i].find(query) != std::string::npos) {
             found = true;
-            replaceStartIndex = i + 1; // ������ ���������� �� ��������� ������
+            replaceStartIndex = i + 1;
             break;
         }
     }
 
-    if (!found) {
-        std::cerr << "������ �� �������!" << std::endl;
-        return;
-    }
 
-    // �������������� ������ � ������� �� ������ ������
-    size_t rowNumber = 1; // ��������� ��� ��������� Row1=, Row2= � �.�.
+   
+    size_t rowNumber = 1;
     for (size_t i = replaceStartIndex; i < lines.size(); ++i) {
-        if (lines[i].empty()) { // ��������������� �� ������ ������
+        if (lines[i].empty()) {
             break;
         }
 
-        // ��������� ����� ������ � ��������� � ������
         std::ostringstream oss;
-        oss << "Row" << rowNumber << "=" << newNumbers[rowNumber - 1];
-        lines[i] = oss.str(); // �������������� ������
+        if (newNumbers[rowNumber - 1] != 0)
+        {
+            if (newNumbers[rowNumber - 1] != -1.24475)
+            {
+                oss << "Row" << rowNumber << "=" << newNumbers[rowNumber - 1];
+            }
+            else
+            {
+                oss << "Row" << rowNumber << "=";
+            }
+            
+        }
+        else
+        {
+            oss << "Row" << rowNumber << "=";
+        }
+        lines[i] = oss.str();
         rowNumber++;
 
-        if (rowNumber > newNumbers.size()) { // ���� ����� �����������, ���������� ������
+        if (rowNumber > newNumbers.size()) {
             break;
         }
     }
 
-    // ��������� ���� ��� ������ (��������������)
     std::ofstream outFile(filenamez);
-    if (!outFile.is_open()) {
-        std::cerr << "������: �� ������� ������� ���� ��� ������!" << std::endl;
-        return;
-    }
 
-    // ���������� ����������� ������ � ����
     for (const auto& l : lines) {
         outFile << l << std::endl;
     }
-    outFile.close(); // ��������� ����
+    outFile.close();
 }
-
-int change(std::string linec, std::string linen, double koef) {
-    std::ifstream file(filenamez);
-
-    if (!file.is_open()) {
-        MessageBox::Show("������: �� ������� ������� ����", "������");
+int write_infile(std::vector<std::string> all_lines)
+{
+    std::ofstream outFile(filenamez);
+    if (!outFile.is_open()) {
+        MessageBox::Show("Файл не найден.", "Ошибка");
         return 1;
     }
+
+    for (const auto& l : all_lines) {
+        outFile << l << std::endl;
+    }
+
+    outFile.close();
+    return 0;
+}
+int change(std::string linec, std::string linen, double koef) {
+    std::ifstream file(filenamez);
 
     std::vector<std::string> lines;
     std::string line;
@@ -190,16 +212,6 @@ int change(std::string linec, std::string linen, double koef) {
     }
 
     file.close();
-
-    if (!editFound || editIndex + 8 >= lines.size()) {
-        MessageBox::Show("������ 'edit' �� ������� ��� ����� ��� ������������ �����.", "������");
-        return 1;
-    }
-
-    if (!changeFound) {
-        MessageBox::Show("������ 'change' �� �������.", "������");
-        return 1;
-    }
 
     std::vector<std::string> updatedLines;
 
@@ -244,20 +256,10 @@ int change(std::string linec, std::string linen, double koef) {
             lines.insert(lines.begin() + changeInsertIndex + i, updatedLines[i]);
         }
     }
-
-    std::ofstream outFile(filenamez);
-    if (!outFile.is_open()) {
-        MessageBox::Show("������ ��� ������ � ����.", "������");
-        return 1;
-    }
-
-    for (const auto& l : lines) {
-        outFile << l << std::endl;
-    }
-
-    outFile.close();
+    write_infile(lines);
     return 0;
 }
+
 String^ Replaced(String^ input)
 {
     // Получаем текущие региональные настройки системы
@@ -294,57 +296,77 @@ std::string ConvertAndReplace(System::String^ managedString) {
 }
 
 inline System::Void Converterr::MyForm::button2_Click(System::Object^ sender, System::EventArgs^ e) {
-    // Open file dialog and check if file exists
+    numbers.clear(); // Чистим старые данные
+    lines.clear();
+    
+    // 1. Открываем диалог и получаем ВЫБРАННЫЙ файл (filenamez)
     OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
+    if (openFileDialog1->ShowDialog() != System::Windows::Forms::DialogResult::OK) {
+        return;
+    }
 
-    if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
-        // Convert the selected file path to a std::string
-        std::string filePath = msclr::interop::marshal_as<std::string>(openFileDialog1->FileName);
-        std::cout << "Selected File Path: " << filePath << std::endl;
+    // Сохраняем путь в filenamez
+    filenamez = msclr::interop::marshal_as<std::string>(openFileDialog1->FileName);
 
-        // Check if file exists before proceeding
-        if (!std::ifstream(filePath)) {
-            MessageBox::Show("���� �� ���������� ��� �� ����� ���� ������.", "������");
+
+    std::ifstream file(filename2);
+    if (!file.is_open()) {
+        std::ofstream createFile(filename2);
+        if (!createFile) {
+            MessageBox::Show("Не создаётся filename2", "Ошибка");
             return;
         }
-
-        filenamez = filePath;
-        std::ifstream file(filename2);
-
+        createFile.close();
+    }
+    else {
+        // Читаем весь filename2
         std::string line;
         while (std::getline(file, line)) {
-            lines.push_back(line);
+            if (!line.empty()) {
+                // Парсим данные через 'i'
+                size_t pos = 0;
+                while ((pos = line.find('i')) != std::string::npos) {
+                    std::string token = line.substr(0, pos);
+                    line.erase(0, pos + 1);
+                    try {
+                        numbers.push_back(std::stod(token));
+                    }
+                    catch (...) {
+                        numbers.push_back(0.0);
+                    }
+                }
+                // Последнее число после последнего 'i'
+                if (!line.empty()) {
+                    try {
+                        numbers.push_back(std::stod(line));
+                    }
+                    catch (...) {
+                        numbers.push_back(0.0);
+                    }
+                }
+            }
         }
         file.close();
-
-        std::string firstLine = lines[0];
-        std::stringstream ss(firstLine);
-        std::string token;
-
-        while (std::getline(ss, token, 'i')) {
-            try {
-                double num = std::stod(token);
-                numbers.push_back(num);
-            }
-            catch (const std::invalid_argument&) {
-                MessageBox::Show("������: ������������ ����� � ������ ������.", "������");
-            }
-        }
-
-        // Populate text boxes
-        adp60->Text = Convert::ToString(numbers[0]);
-        apd71->Text = Convert::ToString(numbers[1]);
-        adp40->Text = Convert::ToString(numbers[2]);
-        adp51->Text = Convert::ToString(numbers[3]);
-        tmin->Text = Convert::ToString(numbers[4]);
-        tmax->Text = Convert::ToString(numbers[5]);
-        t0->Text = Convert::ToString(numbers[6]);
-        etmin->Text = Convert::ToString(numbers[7]);
-        etmax->Text = Convert::ToString(numbers[8]);
-        uref->Text = Convert::ToString(numbers[9]);
-        isens->Text = Convert::ToString(numbers[10]);
-        rbot->Text = Convert::ToString(numbers[11]);
     }
+
+    // Если нихуя не считали - заполняем нулями
+    if (numbers.size() < 10) {
+        numbers.resize(10, 0.0);
+        MessageBox::Show("Данных нет или файл пустой!", "Warning");
+    }
+
+    adp60->Text = Convert::ToString(numbers[0]);
+    apd71->Text = Convert::ToString(numbers[1]);
+    adp40->Text = Convert::ToString(numbers[2]);
+    adp51->Text = Convert::ToString(numbers[3]);
+    tmin->Text = Convert::ToString(numbers[4]);
+    tmax->Text = Convert::ToString(numbers[5]);
+    t0->Text = Convert::ToString(numbers[6]);
+    uref->Text = Convert::ToString(numbers[7]);
+    isens->Text = Convert::ToString(numbers[8]);
+    rbot->Text = Convert::ToString(numbers[9]);
+    groupBox2->Visible = true;
+    groupBox2->Location = Point(8, 37);
 }
 
 inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -356,65 +378,82 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
     updatedLine << ConvertAndReplace(tmin->Text) << "i";
     updatedLine << ConvertAndReplace(tmax->Text) << "i";
     updatedLine << ConvertAndReplace(t0->Text) << "i";
-    updatedLine << ConvertAndReplace(etmin->Text) << "i";
-    updatedLine << ConvertAndReplace(etmax->Text) << "i";
     updatedLine << ConvertAndReplace(uref->Text) << "i";
     updatedLine << ConvertAndReplace(isens->Text) << "i";
     updatedLine << ConvertAndReplace(rbot->Text);
 
-    lines[0] = updatedLine.str();
-
-    std::ofstream outFile(filename2);
-    for (const auto& l : lines) {
-        outFile << l << std::endl;
+    if (lines.empty()) {
+        lines.push_back(updatedLine.str());
     }
+    else {
+        lines[0] = updatedLine.str();
+    }
+    {
+        std::ofstream clearFile(filename2, std::ios::trunc);
+        // Просто открытие в режиме trunc очистит файл
+    }
+
+    // Затем записываем новые данные
+    std::ofstream outFile(filename2, std::ios::trunc);
+    if (!outFile.is_open()) {
+        std::cerr << "Error: Failed to open file for writing!" << std::endl;
+        return;
+    }
+
+    outFile << updatedLine.str() << std::endl;
     outFile.close();
+
+    
 
     if (radioButton1->Checked == true)
     {
-        //change("[Col63]", "[Col67]", Convert::ToDouble(textBox4->Text));
         changeflag("P1L_EN=");
-        //change("[Col64]", "[Col68]", Convert::ToDouble(textBox1->Text));
         changeflag("P2L_EN=");
-        //change("[Col63]", "[Col69]", Convert::ToDouble(textBox9->Text));
         changeflag("P1H_EN=");
-        //change("[Col64]", "[Col70]", Convert::ToDouble(textBox12->Text));
         changeflag("P2H_EN=");
+        
+        std::vector<markers> source = {
+            {71, 73},
+            {71, 75},
+            {71, 77},
 
-        change("[Col70]", "[Col73]", 0);
+            {72, 76},
+            {72, 78},
 
-        change("[Col70]", "[Col75]", 0);
+            {87, 91},
+            {87, 93},
+            
+            {88, 94},
+            {88, 92},
 
-        change("[Col70]", "[Col77]", 0);
+            {55, 59},
+            {55, 61},
 
-        change("[Col72]", "[Col76]", 0);
-
-        change("[Col72]", "[Col78]", 0);
-
-        change("[Col87]", "[Col91]", 0);
-
-        change("[Col87]", "[Col93]", 0);
-
-        change("[Col88]", "[Col94]", 0);
-
-        change("[Col88]", "[Col92]", 0);
-
-        change("[Col55]", "[Col59]", 0);
-
-        change("[Col55]", "[Col61]", 0);
-
-        change("[Col56]", "[Col60]", 0);
-
-        change("[Col56]", "[Col62]", 0);
-
-        //s
-        change("[Col103]", "[Col109]", 0);
-
-        change("[Col103]", "[Col107]", 0);
-
-        change("[Col104]", "[Col110]", 0);
-
-        change("[Col104]", "[Col108]", 0);
+            {56, 60},
+            {56, 62},
+            
+            {103, 109},
+            {103, 107},
+            
+            {104, 110},
+            {104, 108},
+            
+            {95, 99},
+            {95, 101},
+            
+            {96, 100},
+            {96, 102},
+        };
+        std::string linecopy;
+        std::string linepaste;
+        for (const markers& marker : source) {
+            linecopy = "[Col" + std::to_string(marker.markers_copy) + "]";
+            linepaste = "[Col" + std::to_string(marker.markers_input) + "]";
+            int err = change(linecopy, linepaste, 0);
+            if (err != 0) {
+                MessageBox::Show("В ходе переноса была обнаружена ошибка", "Предупреждение");
+            }
+        }
         std::vector<double> adp0 = extractNumbersAfterString("[Col63]");
         std::vector<double> adp1 = extractNumbersAfterString("[Col64]");
         std::vector<double> adp6;
@@ -423,16 +462,10 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
         std::vector<double> adp5;
         for (int i = 0; i < adp0.size(); i++)
         {
-            adp6.push_back(adp0[i] + Convert::ToDouble(Replaced(adp60->Text)) * (adp1[i] - adp0[i]) * (
-                Convert::ToDouble(Replaced(tmax->Text)) - Convert::ToDouble(Replaced(t0->Text))) /
-                Convert::ToDouble(Replaced(etmax->Text)));
-            adp7.push_back(adp6[i] + (Convert::ToDouble(Replaced(apd71->Text)) + 1) * (adp1[i] - adp0[i])
-                * (Convert::ToDouble(Replaced(tmax->Text)) - Convert::ToDouble(Replaced(t0->Text))) / Convert::ToDouble(Replaced(etmax->Text)));
-            adp4.push_back(adp0[i] + Convert::ToDouble(Replaced(adp40->Text)) * (adp1[i] - adp0[i]) * (
-                Convert::ToDouble(Replaced(tmin->Text)) - Convert::ToDouble(Replaced(t0->Text))) /
-                Convert::ToDouble(Replaced(etmin->Text)));
-            adp5.push_back(adp4[i] + (Convert::ToDouble(Replaced(adp51->Text)) + 1) * (adp1[i] - adp0[i])
-                * (Convert::ToDouble(Replaced(tmin->Text)) - Convert::ToDouble(Replaced(t0->Text))) / Convert::ToDouble(Replaced(etmin->Text)));
+            adp6.push_back(adp0[i] + Convert::ToDouble(Replaced(adp60->Text)) * (adp1[i] - adp0[i]));
+            adp7.push_back(adp6[i] + (Convert::ToDouble(Replaced(apd71->Text)) + 1) * (adp1[i] - adp0[i]));
+            adp4.push_back(adp0[i] + Convert::ToDouble(Replaced(adp40->Text)) * (adp1[i] - adp0[i]));
+            adp5.push_back(adp4[i] + (Convert::ToDouble(Replaced(adp51->Text)) + 1) * (adp1[i] - adp0[i]));
         }
 
         std::vector<double> adt0 = extractNumbersAfterString("[Col79]");
@@ -448,24 +481,15 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
                     / Convert::ToDouble(Replaced(uref->Text))) * 100));
         }
 
-        replaceNumbersBelowString("[Col68]", adp6);
-        replaceNumbersBelowString("[Col67]", adp7);
-        replaceNumbersBelowString("[Col70]", adp4);
-        replaceNumbersBelowString("[Col69]", adp5);
+        replaceNumbersBelowString("[Col69]", adp6);
+        replaceNumbersBelowString("[Col70]", adp7);
+        replaceNumbersBelowString("[Col67]", adp4);
+        replaceNumbersBelowString("[Col68]", adp5);
 
         replaceNumbersBelowString("[Col83]", adt45);
         replaceNumbersBelowString("[Col84]", adt45);
         replaceNumbersBelowString("[Col85]", adt67);
         replaceNumbersBelowString("[Col86]", adt67);
-
-
-        change("[Col95]", "[Col99]", 0);
-
-        change("[Col96]", "[Col100]", 0);
-
-        change("[Col95]", "[Col101]", 0);
-
-        change("[Col96]", "[Col102]", 0);
 
         MessageBox::Show("Успешная конвертация", "Окно");
     }
@@ -480,37 +504,47 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
         //change("[Col62]", "[Col66]", Convert::ToDouble(textBox12->Text));
         changeflag("P2H_EN=");
 
-        change("[Col70]", "[Col76]", 0);
+        std::vector<markers> source = {
+            {70, 76},
+            {70, 74},
 
-        change("[Col70]", "[Col74]", 0);
+            {71, 77},
+            {71, 75},
 
-        change("[Col71]", "[Col77]", 0);
+            {86, 92},
+            {86, 90},
 
-        change("[Col71]", "[Col75]", 0);
+            {87, 93},
+            {87, 91},
 
-        change("[Col86]", "[Col92]", 0);
+            {54, 58},
+            {54, 60},
 
-        change("[Col86]", "[Col90]", 0);
+            {55, 59},
+            {55, 61},
 
-        change("[Col87]", "[Col93]", 0);
+            {102, 108},
+            {102, 106},
 
-        change("[Col87]", "[Col91]", 0);
+            {103, 109},
+            {103, 107},
 
-        change("[Col54]", "[Col58]", 0);
+            {94, 98},
+            {94, 100},
 
-        change("[Col54]", "[Col60]", 0);
-
-        change("[Col55]", "[Col59]", 0);
-
-        change("[Col55]", "[Col61]", 0);
-
-        change("[Col102]", "[Col108]", 0);
-
-        change("[Col102]", "[Col106]", 0);
-
-        change("[Col103]", "[Col109]", 0);
-
-        change("[Col103]", "[Col107]", 0);
+            {95, 99},
+            {95, 101},
+        };
+        std::string linecopy;
+        std::string linepaste;
+        for (const markers& marker : source) {
+            linecopy += "[Col" + std::to_string(marker.markers_copy) + "]";
+            linepaste = "[Col" + std::to_string(marker.markers_input) + "]";
+            int err = change(linecopy, linepaste, 0);
+            if (err != 0) {
+                MessageBox::Show("В ходе переноса была обнаружена ошибка", "Предупреждение");
+            }
+        }
 
         std::vector<double> adp0 = extractNumbersAfterString("[Col62]");
         std::vector<double> adp1 = extractNumbersAfterString("[Col63]");
@@ -520,16 +554,10 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
         std::vector<double> adp5;
         for (int i = 0; i < adp0.size(); i++)
         {
-            adp6.push_back(adp0[i] + Convert::ToDouble(Replaced(adp60->Text)) * (adp1[i] - adp0[i]) * (
-                Convert::ToDouble(Replaced(tmax->Text)) - Convert::ToDouble(Replaced(t0->Text))) /
-                Convert::ToDouble(Replaced(etmax->Text)));
-            adp7.push_back(adp6[i] + (Convert::ToDouble(Replaced(apd71->Text)) + 1) * (adp1[i] - adp0[i])
-                * (Convert::ToDouble(Replaced(tmax->Text)) - Convert::ToDouble(Replaced(t0->Text))) / Convert::ToDouble(Replaced(etmax->Text)));
-            adp4.push_back(adp0[i] + Convert::ToDouble(Replaced(adp40->Text)) * (adp1[i] - adp0[i]) * (
-                Convert::ToDouble(Replaced(tmin->Text)) - Convert::ToDouble(Replaced(t0->Text))) /
-                Convert::ToDouble(Replaced(etmin->Text)));
-            adp5.push_back(adp4[i] + (Convert::ToDouble(Replaced(adp51->Text)) + 1) * (adp1[i] - adp0[i])
-                * (Convert::ToDouble(Replaced(tmin->Text)) - Convert::ToDouble(Replaced(t0->Text))) / Convert::ToDouble(Replaced(etmin->Text)));
+            adp6.push_back(adp0[i] + Convert::ToDouble(Replaced(adp60->Text)) * (adp1[i] - adp0[i]));
+            adp7.push_back(adp6[i] + (Convert::ToDouble(Replaced(apd71->Text)) + 1) * (adp1[i] - adp0[i]));
+            adp4.push_back(adp0[i] + Convert::ToDouble(Replaced(adp40->Text)) * (adp1[i] - adp0[i]));
+            adp5.push_back(adp4[i] + (Convert::ToDouble(Replaced(adp51->Text)) + 1) * (adp1[i] - adp0[i]));
         }
 
         std::vector<double> adt0 = extractNumbersAfterString("[Col78]");
@@ -545,7 +573,7 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
                     / Convert::ToDouble(Replaced(uref->Text))) * 100));
         }
 
-        replaceNumbersBelowString("[Col68]", adp6);
+        replaceNumbersBelowString("[Col68]", adp6); // Позже: создать структуру и вектор для маркеров
         replaceNumbersBelowString("[Col69]", adp7);
         replaceNumbersBelowString("[Col66]", adp4);
         replaceNumbersBelowString("[Col67]", adp5);
@@ -554,14 +582,6 @@ inline System::Void Converterr::MyForm::button1_Click(System::Object^ sender, Sy
         replaceNumbersBelowString("[Col83]", adt45);
         replaceNumbersBelowString("[Col84]", adt67);
         replaceNumbersBelowString("[Col85]", adt67);
-
-        change("[Col94]", "[Col98]", 0);
-
-        change("[Col95]", "[Col99]", 0);
-
-        change("[Col94]", "[Col100]", 0);
-
-        change("[Col95]", "[Col101]", 0);
 
         MessageBox::Show("Успешная конвертация", "Окно");
     }
